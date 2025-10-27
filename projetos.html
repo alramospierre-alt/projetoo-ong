@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Projetos — Sementes do Amanhã</title>
+  <meta name="description" content="Conheça os projetos da Sementes do Amanhã e como participar como voluntário ou doador.">
+</head>
+<body>
+  <header>
+    <div class="branding">
+      <img src="imagens/logo.png" alt="Logo Sementes do Amanhã" width="100" />
+      <h1>Sementes do Amanhã</h1>
+    </div>
+
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="projetos.html">Projetos</a></li>
+        <li><a href="cadastro.html">Cadastro / Doações</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <article aria-labelledby="titulo-projetos">
+      <h2 id="titulo-projetos">Nossos Projetos</h2>
+
+      <section id="plantios" aria-labelledby="titulo-plantios">
+        <h3 id="titulo-plantios">Plantios Urbanos</h3>
+        <p>
+          Realizamos mutirões de plantio em parques e praças, envolvendo escolas e moradores.
+        </p>
+        <p><strong>Como ajudar:</strong> participar como voluntário em mutirões; doar mudas.</p>
+      </section>
+
+      <section id="oficinas" aria-labelledby="titulo-oficinas">
+        <h3 id="titulo-oficinas">Oficinas Educativas</h3>
+        <p>
+          Oficinas para crianças e adolescentes sobre reciclagem, hortas caseiras e compostagem.
+        </p>
+        <p><strong>Como ajudar:</strong> ministrar oficinas, logística e material didático.</p>
+      </section>
+
+      <section id="voluntariado" aria-labelledby="titulo-voluntariado">
+        <h3 id="titulo-voluntariado">Voluntariado</h3>
+        <p>
+          Temos vagas regulares para voluntários: coordenação de eventos, comunicação e apoio pedagógico.
+        </p>
+        <p><a href="cadastro.html">Clique aqui para se cadastrar como voluntário</a>.</p>
+      </section>
+
+      <section id="doacoes" aria-labelledby="titulo-doacoes">
+        <h3 id="titulo-doacoes">Doações</h3>
+        <p>
+          Aceitamos doações em dinheiro e materiais (mudas, ferramentas, material escolar). As doações podem ser feitas via transferência ou plataformas parceiras.
+        </p>
+        <p><a href="cadastro.html">Saiba como doar</a></p>
+      </section>
+    </article>
+  </main>
+
+  <footer>
+    <p>© <span id="ano-proj"></span> Sementes do Amanhã</p>
+    <p><a href="index.html">Início</a> • <a href="cadastro.html">Cadastro</a></p>
+  </footer>
+
+  <script>
+    document.getElementById('ano-proj').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

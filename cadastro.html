@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cadastro — Sementes do Amanhã</title>
+  <meta name="description" content="Formulário de cadastro para voluntários e doadores.">
+</head>
+<body>
+  <header>
+    <div class="branding">
+      <img src="imagens/logo.png" alt="Logo Sementes do Amanhã" width="100" />
+      <h1>Sementes do Amanhã</h1>
+    </div>
+
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="projetos.html">Projetos</a></li>
+        <li><a href="cadastro.html">Cadastro / Doações</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <article aria-labelledby="titulo-cadastro">
+      <h2 id="titulo-cadastro">Cadastro de Voluntário / Doador</h2>
+      <p>Preencha seus dados. Campos com * são obrigatórios.</p>
+
+      <form id="form-cadastro" action="#" method="post" novalidate>
+        <fieldset>
+          <legend>Dados Pessoais</legend>
+
+          <label for="nome">Nome completo *</label>
+          <input id="nome" name="nome" type="text" required minlength="3" placeholder="Seu nome completo" />
+
+          <label for="email">E-mail *</label>
+          <input id="email" name="email" type="email" required placeholder="seu@exemplo.com" />
+
+          <label for="cpf">CPF *</label>
+          <input id="cpf" name="cpf" type="text" inputmode="numeric"
+                 pattern="^\d{11}$|^\d{3}\.\d{3}\.\d{3}-\d{2}$"
+                 title="Digite 11 dígitos (somente números) ou no formato 000.000.000-00"
+                 required placeholder="000.000.000-00 ou 00000000000" />
+
+          <label for="telefone">Telefone *</label>
+          <input id="telefone" name="telefone" type="tel" inputmode="tel"
+                 pattern="^\d{10,11}$|^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$"
+                 title="Telefone com DDD: 11999999999 ou (11) 99999-9999"
+                 required placeholder="(11) 9xxxx-xxxx" />
+
+          <label for="nascimento">Data de Nascimento</label>
+          <input id="nascimento" name="nascimento" type="date" />
+
+        </fieldset>
+
+        <fieldset>
+          <legend>Endereço</legend>
+
+          <label for="cep">CEP *</label>
+          <input id="cep" name="cep" type="text" inputmode="numeric"
+                 pattern="^\d{8}$|^\d{5}-\d{3}$"
+                 title="CEP no formato 00000-000 ou 00000000"
+                 required placeholder="00000-000" />
+
+          <label for="endereco">Endereço</label>
+          <input id="endereco" name="endereco" type="text" placeholder="Rua, número, complemento" />
+
+          <label for="cidade">Cidade *</label>
+          <input id="cidade" name="cidade" type="text" required />
+
+          <label for="estado">Estado *</label>
+          <input id="estado" name="estado" type="text" required maxlength="2" placeholder="UF" />
+        </fieldset>
+
+        <fieldset>
+          <legend>Interesse</legend>
+
+          <label for="tipo">Sou:</label>
+          <select id="tipo" name="tipo" required>
+            <option value="">-- selecione --</option>
+            <option value="voluntario">Voluntário</option>
+            <option value="doador">Doador</option>
+            <option value="parceiro">Parceiro</option>
+          </select>
+
+          <label for="observacoes">Observações (opcional)</label>
+          <textarea id="observacoes" name="observacoes" rows="4" placeholder="Como você quer ajudar?"></textarea>
+        </fieldset>
+
+        <button type="submit">Enviar cadastro</button>
+      </form>
+
+      <p id="mensagem-validacao" role="status" aria-live="polite"></p>
+    </article>
+  </main>
+
+  <footer>
+    <p>© <span id="ano-cad"></span> Sementes do Amanhã</p>
+    <p><a href="index.html">Início</a> • <a href="projetos.html">Projetos</a></p>
+  </footer>
+
+  <script>
+    // máscaras simples e feedback de validação (funciona sem bibliotecas)
+    (function () {
+      const cpf = document.getElementById('cpf');
+      const tel = document.getElementById('telefone');
+      const cep = document.getElementById('cep');
+      const form = document.getElementById('form-cadastro');
+      const msg = document.getElementById('mensagem-validacao');
+
+      function onlyDigits(value) {
+        return value.replace(/\D/g, '');
+      }
+
+      function maskCPF(v) {
+        v = onlyDigits(v).slice(0,11);
+        if (v.length <= 3) return v;
+        if (v.length <= 6) return v.replace(/(\d{3})(\d+)/, '$1.$2');
+        if (v.length <= 9) return v.replace(/(\d{3})(\d{3})(\d+)/, '$1.$2.$3');
+        return v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+      }
+
+      function maskTel(v) {
+        v = onlyDigits(v).slice(0,11);
+        if (v.length <= 2) return v;
+        if (v.length <= 6) return v.replace(/(\d{2})(\d+)/, '($1) $2');
+        if (v.length <= 10) return v.replace(/(\d{2})(\d{4})(\d+)/, '($1) $2-$3');
+        return v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+      }
+
+      function maskCEP(v) {
+        v = onlyDigits(v).slice(0,8);
+        if (v.length <= 5) return v;
+        return v.replace(/(\d{5})(\d{1,3})/, '$1-$2');
+      }
+
+      cpf.addEventListener('input', (e) => {
+        const pos = cpf.selectionStart;
+        cpf.value = maskCPF(cpf.value);
+        cpf.setSelectionRange(pos, pos);
+      });
+
+      tel.addEventListener('input', (e) => {
+        const pos = tel.selectionStart;
+        tel.value = maskTel(tel.value);
+        tel.setSelectionRange(pos, pos);
+      });
+
+      cep.addEventListener('input', (e) => {
+        const pos = cep.selectionStart;
+        cep.value = maskCEP(cep.value);
+        cep.setSelectionRange(pos, pos);
+      });
+
+      // Validação ao submeter: usa validação HTML5 e mostra mensagem amigável
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        msg.textContent = ''; // limpa mensagem
+
+        if (!form.checkValidity()) {
+          // Força exibição das mensagens nativas, e mostra texto resumido
+          form.reportValidity();
+          msg.textContent = 'Por favor, verifique os campos obrigatórios e o formato dos dados.';
+          msg.style.color = 'crimson';
+          return;
+        }
+
+        // Se quiser enviar para um servidor, aqui iria o fetch/ajax.
+        // Para a entrega do projeto, basta indicar que a submissão ocorreu.
+        msg.textContent = 'Cadastro enviado com sucesso (simulado). Obrigado por se cadastrar!';
+        msg.style.color = 'green';
+        form.reset();
+      });
+    })();
+  </script>
+</body>
+</html>
